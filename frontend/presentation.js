@@ -2,7 +2,6 @@ import { operations } from "./businessLogic.js";
 import { Role } from "./businessLogic.js";
 import { Employee } from "./businessLogic.js";
 import { ButtonOperations } from "./buttonoperations.js";
-// import { Validation } from "./Validation.js";
 import { NewEntry } from "./newEntry.js";
 class Presentation {
     //-------------------------------------------------------------------
@@ -35,7 +34,6 @@ class Presentation {
         //destructing---------------------------------------------------------
         this.datalen = Emp.length;
         this.Record = Emp.map(obj => Object.values(obj));
-        console.log(this.Record);
         for (let i = 0; i < this.datalen; i++) {
             this.flag[i] = false;
         }
@@ -65,7 +63,6 @@ class Presentation {
             tr.appendChild(th);
         }
         for (let c = 0; c < this.datalen; c++) {
-            console.log(`currrent employee id ${Emp[c].id}`);
             tr = table.insertRow(-1);
             tr.setAttribute("id", Emp[c].id.toString());
             tr.style.textAlign = "center";
@@ -116,8 +113,6 @@ class Presentation {
         }
         document.getElementById("div1").appendChild(table);
         this.rowCount = table.rows.length;
-        console.log(this.datalen);
-        console.log("table created and number of row = " + this.rowCount);
         this.objB.createNewButtons();
         for (let c = 0; c < this.datalen; c++) {
             let idedit = "edit" + Emp[c].id;
@@ -158,10 +153,8 @@ class Presentation {
                 }
             }
             this.Record[row_num] = row_array;
-            console.log(this.Record[row_num]);
             let changeEmployee = new Employee(this.Record[row_num][0], this.Record[row_num][1], this.Record[row_num][2], this.Record[row_num][3], this.Record[row_num][4], +this.Record[row_num][5], this.Record[row_num][6]);
             changeEmployee.id = row_num;
-            console.log(changeEmployee);
             fetch(`http://localhost:3000/crud/edit/${row_num}`, {
                 method: "PUT",
                 headers: {
@@ -190,7 +183,7 @@ class Presentation {
         let row = document.getElementById(rowid.toString());
         if (this.flag[row_num] === false) {
             fetch(`http://localhost:3000/crud/delete/${row_num}`, {
-                method: "delete"
+                method: "DELETE"
             }).then(res => {
                 row.parentNode.removeChild(row);
                 this.rowCount = document.getElementById("empTable").rows.length;

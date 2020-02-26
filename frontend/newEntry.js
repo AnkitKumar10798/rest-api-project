@@ -27,10 +27,10 @@ export class NewEntry {
         let address = document.getElementById("addr").value;
         let objE = new Employee(fname, mname, lname, email, parseInt(phone), roleVal, address);
         objE.id = row_Count;
-        console.log(objE);
-        fetch(`http://localhost:3000/crud/createnew`, { method: "POST",
+        fetch(`http://localhost:3000/crud/createnew`, {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(objE)
         }).then(res => {
@@ -79,7 +79,6 @@ export class NewEntry {
                     '<td><input type = "checkbox" class = "checkboxes" ></td>';
             //calling edit and delete functions
             objp.rowCount = document.getElementById("empTable").rows.length;
-            console.log(objp.rowCount);
             let idedit = "edit" + row_Count;
             let iddelete = "delete" + row_Count;
             let editButton = document.getElementById(idedit);

@@ -60,12 +60,11 @@ export class ButtonOperations {
         RowsToDelete.push(+row.id);
       }
     }
-    let tablebody = document.getElementsByTagName("tbody")[0];
     for (let index = 0; index <= RowsToDelete.length - 1; index++) {
       let row = document.getElementById(
         RowsToDelete[index].toString()
       )! as HTMLTableRowElement;
-      fetch(`http://localhost:3000/CRUD/DELETE/${RowsToDelete[index]}`, {
+      fetch(`http://localhost:3000/crud/delete/${RowsToDelete[index]}`, {
         method: "delete"
       }).then(res => {
         row.parentNode!.removeChild(row);

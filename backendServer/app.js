@@ -5,6 +5,14 @@ let bodyParser = require("body-parser");
 let app = express();
 let port = 3000;
 //server started
+function modify_json() {
+    let raw_json = fs.readFileSync(__dirname + "/data.json");
+    let current_json = JSON.parse(raw_json);
+    for (let i = 0; i < current_json.length; i++) {
+        current_json[i].id = i;
+    }
+    fs.writeFileSync("data.json", JSON.stringify(current_json));
+}
 app.listen(port, (err, res) => {
     if (err) {
         console.log("something went wrong");
@@ -19,7 +27,7 @@ app.post("/crud/createnew", function (req, res) {
     const data = fs.readFileSync(__dirname + "/data.json");
     const actual_data = JSON.parse(data);
     actual_data.push(req.body);
-    fs.writeFile("./data.json", JSON.stringify(actual_data), (err) => {
+    fs.writeFile(__dirname + "/data.json", JSON.stringify(actual_data), (err) => {
         if (err) {
             console.error(Error);
         }
@@ -30,15 +38,16 @@ app.post("/crud/createnew", function (req, res) {
 });
 //fetching data from json
 app.get("/crud/fetch", (req, res) => {
+    modify_json();
     console.log("request received");
-    let raw_data = fs.readFileSync("data.json");
+    let raw_data = fs.readFileSync(__dirname + "/data.json");
     let actual_data = JSON.parse(raw_data);
     res.send(actual_data);
 });
 //updating an entry in json
 app.put("/crud/edit/:id", (req, res) => {
     let id = req.params.id;
-    const raw_data = fs.readFileSync("data.json");
+    const raw_data = fs.readFileSync(__dirname + "/data.json");
     const actual_data = JSON.parse(raw_data);
     console.log("in edit request");
     const object = req.body;
@@ -48,7 +57,7 @@ app.put("/crud/edit/:id", (req, res) => {
             break;
         }
     }
-    fs.writeFile("./data.json", JSON.stringify(actual_data), (err) => {
+    fs.writeFile(__dirname + "/data.json", JSON.stringify(actual_data), (err) => {
         if (err) {
             console.error(Error);
         }
@@ -60,7 +69,7 @@ app.put("/crud/edit/:id", (req, res) => {
 //deleting an entry from json
 app.delete("/crud/delete/:id", (req, res) => {
     let id = parseInt(req.params.id);
-    let raw_data = fs.readFileSync("data.json");
+    let raw_data = fs.readFileSync(__dirname + "/data.json");
     let actual_data = JSON.parse(raw_data);
     for (let i = 0; i < actual_data.length; i++) {
         if (actual_data[i].id == id) {
@@ -68,6 +77,6 @@ app.delete("/crud/delete/:id", (req, res) => {
             break;
         }
     }
-    fs.writeFileSync("./data.json", JSON.stringify(actual_data));
+    fs.writeFileSync(__dirname + "/data.json", JSON.stringify(actual_data));
     res.send("deleted");
 });

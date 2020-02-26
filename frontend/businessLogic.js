@@ -29,7 +29,7 @@ export class operations {
     loadAndRefresh() {
         return __awaiter(this, void 0, void 0, function* () {
             let response = yield fetch("http://localhost:3000/crud/fetch");
-            let data = yield (response.json());
+            let data = yield response.json();
             return data;
         });
     }

@@ -3,7 +3,6 @@ import { operations } from "./businessLogic.js";
 import { Role } from "./businessLogic.js";
 import { Employee } from "./businessLogic.js";
 import { ButtonOperations } from "./buttonoperations.js";
-// import { Validation } from "./Validation.js";
 import { NewEntry } from "./newEntry.js";
 class Presentation implements CRUD<Employee, number> {
   //attributes
@@ -200,7 +199,7 @@ class Presentation implements CRUD<Employee, number> {
     )! as HTMLTableRowElement;
     if (this.flag[row_num] === false) {
       fetch(`http://localhost:3000/crud/delete/${row_num}`, {
-        method: "delete"
+        method: "DELETE"
       }).then(res => {
         row.parentNode!.removeChild(row);
         this.rowCount = (document.getElementById(

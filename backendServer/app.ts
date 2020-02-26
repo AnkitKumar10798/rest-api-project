@@ -11,11 +11,12 @@ let app = express();
 let port = 3000;
 //server started
 function modify_json() {
-  let raw_json = fs.readFileSync("/data.json");
+  let raw_json = fs.readFileSync(__dirname + "/data.json");
   let current_json = JSON.parse(raw_json);
   for (let i = 0; i < current_json.length; i++) {
     current_json[i].id = i;
   }
+  fs.writeFileSync("data.json", JSON.stringify(current_json));
 }
 app.listen(port, (err: Error, res: Response) => {
   if (err) {
@@ -32,26 +33,30 @@ app.post("/crud/createnew", function(req: Request, res: Response) {
   const data = fs.readFileSync(__dirname + "/data.json");
   const actual_data = JSON.parse(data);
   actual_data.push(req.body);
-  fs.writeFile("./data.json", JSON.stringify(actual_data), (err: Error) => {
-    if (err) {
-      console.error(Error);
-    } else {
-      res.send("created");
+  fs.writeFile(
+    __dirname + "/data.json",
+    JSON.stringify(actual_data),
+    (err: Error) => {
+      if (err) {
+        console.error(Error);
+      } else {
+        res.send("created");
+      }
     }
-  });
+  );
 });
 //fetching data from json
 app.get("/crud/fetch", (req: Request, res: Response) => {
   modify_json();
   console.log("request received");
-  let raw_data = fs.readFileSync("data.json");
+  let raw_data = fs.readFileSync(__dirname + "/data.json");
   let actual_data = JSON.parse(raw_data);
   res.send(actual_data);
 });
 //updating an entry in json
 app.put("/crud/edit/:id", (req: Request, res: Response) => {
   let id = req.params.id;
-  const raw_data = fs.readFileSync("data.json");
+  const raw_data = fs.readFileSync(__dirname + "/data.json");
   const actual_data = JSON.parse(raw_data);
   console.log("in edit request");
   const object = req.body;
@@ -61,18 +66,22 @@ app.put("/crud/edit/:id", (req: Request, res: Response) => {
       break;
     }
   }
-  fs.writeFile("./data.json", JSON.stringify(actual_data), (err: Error) => {
-    if (err) {
-      console.error(Error);
-    } else {
-      res.send("edited");
+  fs.writeFile(
+    __dirname + "/data.json",
+    JSON.stringify(actual_data),
+    (err: Error) => {
+      if (err) {
+        console.error(Error);
+      } else {
+        res.send("edited");
+      }
     }
-  });
+  );
 });
 //deleting an entry from json
 app.delete("/crud/delete/:id", (req: Request, res: Response) => {
   let id = parseInt(req.params.id);
-  let raw_data = fs.readFileSync("data.json");
+  let raw_data = fs.readFileSync(__dirname + "/data.json");
   let actual_data = JSON.parse(raw_data);
   for (let i = 0; i < actual_data.length; i++) {
     if (actual_data[i].id == id) {
@@ -81,6 +90,6 @@ app.delete("/crud/delete/:id", (req: Request, res: Response) => {
     }
   }
 
-  fs.writeFileSync("./data.json", JSON.stringify(actual_data));
+  fs.writeFileSync(__dirname + "/data.json", JSON.stringify(actual_data));
   res.send("deleted");
 });

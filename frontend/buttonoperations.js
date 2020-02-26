@@ -50,27 +50,23 @@ export class ButtonOperations {
         }
     }
     deleteMultipleRows() {
-        console.log('inside multiple delete');
         let checkBoxArray = document.getElementsByClassName("checkboxes");
-        console.log(checkBoxArray.length);
         let RowsToDelete = [];
         for (let index = 0; index < checkBoxArray.length; index++) {
             if (checkBoxArray[index].checked) {
                 let row = checkBoxArray[index].parentNode
                     .parentNode;
-                RowsToDelete.push(+(row.id));
+                RowsToDelete.push(+row.id);
             }
         }
-        let tablebody = document.getElementsByTagName("tbody")[0];
-        console.log(RowsToDelete);
         for (let index = 0; index <= RowsToDelete.length - 1; index++) {
-            fetch(`http://localhost:3000/CRUD/DELETE/${RowsToDelete[index]}`, { method: "delete" })
-                .then(res => {
-                let row = document.getElementById(RowsToDelete[index].toString());
+            let row = document.getElementById(RowsToDelete[index].toString());
+            fetch(`http://localhost:3000/crud/delete/${RowsToDelete[index]}`, {
+                method: "delete"
+            }).then(res => {
                 row.parentNode.removeChild(row);
             });
         }
         objp.rowCount = document.getElementById("empTable").rows.length;
-        console.log("after deleting checked rows ,no of rows = " + objp.rowCount);
     }
 }
