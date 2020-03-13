@@ -36,7 +36,7 @@ class Presentation implements CRUD<Employee, number> {
     objp.callBuisnessLogic();
   }
   create(Emp: Employee[]) {
-    //destructing---------------------------------------------------------
+    //destructuring---------------------------------------------------------
     this.datalen = Emp.length;
     this.Record = Emp.map(obj => Object.values(obj));
     for (let i = 0; i < this.datalen; i++) {

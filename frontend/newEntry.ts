@@ -99,7 +99,6 @@ export class NewEntry {
       editButton.onclick = () => {
         objp.editData(row_Count);
       };
-      //add delete button --------------------------
       let deleteButton = document.getElementById(
         iddelete
       )! as HTMLTableRowElement;

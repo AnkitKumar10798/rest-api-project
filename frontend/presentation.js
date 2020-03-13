@@ -31,7 +31,7 @@ class Presentation {
         objp.callBuisnessLogic();
     }
     create(Emp) {
-        //destructing---------------------------------------------------------
+        //destructuring---------------------------------------------------------
         this.datalen = Emp.length;
         this.Record = Emp.map(obj => Object.values(obj));
         for (let i = 0; i < this.datalen; i++) {
